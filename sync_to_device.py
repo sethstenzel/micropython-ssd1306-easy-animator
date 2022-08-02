@@ -11,10 +11,10 @@ from pprint import pprint
 # CONNECTION SETTINGS
 COM = "COM8"
 BAUD = 115200
-DELAY = 0.6
+DELAY = 1
 
 # SPESIFIC FILES TO SYNC
-files_to_sync=[
+files_to_sync = [
     "./ssd1306.py",
     "./display_pbm.py",
     "./demo.py",
@@ -24,13 +24,15 @@ files_to_sync=[
 
 # DIRECTORIES TO SYNC
 directories_to_sync = [
-    #"./",
+    # "./",
     "./ani",
     "./img",
 ]
 
 
-print("\n\n\nWARNING THIS SYNC WILL REMOVE ALL FILES CURRENTLY ON THE DEVICE, USE WITH CARE!")
+print(
+    "\n\n\nWARNING THIS SYNC WILL REMOVE ALL FILES CURRENTLY ON THE DEVICE, USE WITH CARE!"
+)
 warning = input("Press ENTER to continue, Q + ENTER to quit.\n\n> ").lower()
 if "q" in warning:
     print("Exiting...")
@@ -42,6 +44,8 @@ print("Getting files and directories lists.")
 
 files = files_to_sync
 directories = directories_to_sync.copy()
+
+
 def get_dir_contents(directory):
     for name in os.listdir(directory):
         dir_path = f"{directory}/{name}"
@@ -51,6 +55,7 @@ def get_dir_contents(directory):
             get_dir_contents(dir_path)
         else:
             files.append(f"{directory}/{name}")
+
 
 for directory in directories_to_sync:
     get_dir_contents(directory)
@@ -62,19 +67,21 @@ print("Done building files and directories lists.")
 
 print("\nRemoving all files and directories on the device!")
 os.system(f"{ampy_command} rmdir ./ 2> nul")
-    
+
 print("Creating new sync directories on device!")
 for directory in directories:
     os.system(f"{ampy_command} mkdir {directory} 2> nul")
 
-print("\nSending new sync files...\nThis may take some time if you have a lot of files\n\n¯\\_(ツ)_/¯\n")
+print(
+    "\nSending new sync files...\nThis may take some time if you have a lot of files\n\n¯\\_(ツ)_/¯\n"
+)
 files_to_send = len(files)
 files_sent = 0
 timing = {
-    "average":0,
-    "count":0,
-    "total":0,
-    }
+    "average": 0,
+    "count": 0,
+    "total": 0,
+}
 for file in files:
     start_time = time.time()
     os.system(f"{ampy_command} put {file} {file}  2> nul")
@@ -84,6 +91,8 @@ for file in files:
     timing["total"] += end_time - start_time
     timing["average"] = timing["total"] / timing["count"]
 
-    print(f'File {files_sent} of {files_to_send} |',
-    f'FPS: {1 / timing["average"]:0.2f} | EST Time Remaining: {(files_to_send - files_sent) * timing["average"]:0.2f}s',
-    f'({(files_to_send - files_sent) * timing["average"] / 60:0.1f}m)')
+    print(
+        f"File {files_sent} of {files_to_send} |",
+        f'FPS: {1 / timing["average"]:0.2f} | EST Time Remaining: {(files_to_send - files_sent) * timing["average"]:0.2f}s',
+        f'({(files_to_send - files_sent) * timing["average"] / 60:0.1f}m)',
+    )
