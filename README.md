@@ -15,9 +15,4 @@
    - `ampy.exe -p COM8 -b 115200 -d 0.75 put demo.py`, you will need to do each file individually.
    - You can also use the expirimental `sync_to_device.py` to sync multiple files and directories.
 9.  You can verify files on the device with the command: `ampy.exe -p COM8 -b 115200 -d 0.75 ls`
-10. Right click the `ani` folder and select the option `Download the file/folder to the device`.
-11. In the REPL window, import the os module and then call the listdir function and confirm all files copied correctly:
-```
-import os
-os.listdir()
-```
+   - To view the contents of a folder, list the folder after the `ls` command: `ampy.exe -p COM8 -b 115200 -d 0.75 ls ani/streef`
