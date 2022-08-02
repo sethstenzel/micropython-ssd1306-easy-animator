@@ -60,23 +60,26 @@ while True:
             startframe=1,
             reverse=False,
         )
-    display_animation(
-        lcd=lcd,
-        dir="./ani/light_to_dark",
-        inverted=True,
-        disptime=200,
-        framecount=23,
-        duration=23,
-        startframe=1,
-        reverse=False,
-    )
-    display_animation(
-        lcd=lcd,
-        dir="./ani/light_to_dark",
-        inverted=True,
-        disptime=200,
-        framecount=23,
-        duration=23,
-        startframe=1,
-        reverse=True,
-    )
+
+    ld_count = 3
+    while ld_count:
+        display_animation(
+            lcd=lcd,
+            dir="./ani/light_to_dark",
+            inverted=True,
+            disptime=33,
+            framecount=23,
+            duration=23,
+            startframe=1,
+            reverse=False,
+        )
+        display_animation(
+            lcd=lcd,
+            dir="./ani/light_to_dark",
+            inverted=True,
+            disptime=33,
+            framecount=23,
+            duration=23,
+            startframe=1,
+            reverse=True,
+        )
