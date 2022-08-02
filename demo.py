@@ -63,6 +63,7 @@ while True:
 
     ld_count = 3
     while ld_count:
+        ld_count -= 1
         display_animation(
             lcd=lcd,
             dir="./ani/light_to_dark",
