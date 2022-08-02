@@ -16,7 +16,7 @@ def display_animation(lcd, dir, inverted, disptime, framecount, duration, startf
         lcd: SSD1306_I2C        The ssd1306 lcd object.
         dir: str                Directory on the device animation files are in.
         inverted: bool          Inverts the black/white pbm file.
-        disptime: int           How long each frame should display.
+        disptime: int           How long each frame should display in ms.
         framecount: int         How many individual .pbm frames are in the directory.
         duration: int           How long the animation should play for.
         startframe: int         Frame to start the animation on.
@@ -38,7 +38,7 @@ def display_animation(lcd, dir, inverted, disptime, framecount, duration, startf
       startframe+=1
 
       
-def display_image(lcd, dir, file, inverted):
+def display_image(lcd, dir, file, inverted, disptime):
   """Displays a Single Image.
 
   Args:
@@ -46,6 +46,7 @@ def display_image(lcd, dir, file, inverted):
       dir: str                Directory on the device animation files are in.
       file: str               File to display.
       inverted: bool          Inverts the black/white pbm file.
+      disptime: int           How long each frame should display in ms.
   """
   framebuf_type = framebuf.MONO_HLSB
   with open(str(dir) + '/' + file, 'rb') as f:
@@ -57,6 +58,8 @@ def display_image(lcd, dir, file, inverted):
   lcd.invert(inverted)
   lcd.blit(fbuf, 0, 0)
   lcd.show()
+  utime.sleep_ms(disptime)
+
 
   
 def display_slide_show(lcd, dir, files, inverted, disptime, loops):
@@ -67,7 +70,7 @@ def display_slide_show(lcd, dir, files, inverted, disptime, loops):
       dir: str                Directory on the device animation files are in.
       files: str              List of file names in the directory to show through.
       inverted: bool          Inverts the black/white pbm file.
-      disptime: int           How long each slide should display.
+      disptime: int           How long each slide should display in ms.
       loops: int              How many times the slideshow should loop. Set to -1 to loop forever.
   """
   counter = 0
