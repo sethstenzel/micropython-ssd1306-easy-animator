@@ -1,11 +1,34 @@
+# Just a warning, this script ignores all errors from the device.
+# It will wipe the device filesystem, and then sync files back on.
+# This means you'll need to make sure boot.py and main.py get
+# put back on the system for sure.
+
 import os
 import sys
 import time
 from pprint import pprint
 
+# CONNECTION SETTINGS
 COM = "COM8"
 BAUD = 115200
 DELAY = 0.6
+
+# SPESIFIC FILES TO SYNC
+files_to_sync=[
+    "./ssd1306.py",
+    "./display_pbm.py",
+    "./demo.py",
+    "./boot.py",
+    "./main.py",
+]
+
+# DIRECTORIES TO SYNC
+directories_to_sync = [
+    #"./",
+    "./ani",
+    "./img",
+]
+
 
 print("\n\n\nWARNING THIS SYNC WILL REMOVE ALL FILES CURRENTLY ON THE DEVICE, USE WITH CARE!")
 warning = input("Press ENTER to continue, Q + ENTER to quit.\n\n> ").lower()
@@ -14,20 +37,6 @@ if "q" in warning:
     sys.exit()
 
 ampy_command = f"ampy.exe -p {COM} -b {BAUD} -d {DELAY:0.2F}"
-files_to_sync=[
-    "./ssd1306.py",
-    "./display_pbm.py",
-    "./demo.py",
-    "./boot.py",
-    "./main.py",
-
-]
-
-directories_to_sync = [
-    #"./",
-    "./ani",
-    "./img",
-]
 
 print("Getting files and directories lists.")
 
