@@ -5,7 +5,8 @@ hw_pin_scl, hw_pin_sda = (4 , 5)
 i2c, lcd = setup_display(hw_pin_scl, hw_pin_sda)
 
 # SINGLE IMAGE DEMO
-display_image(lcd, "./img", "ash-pikachu.pbm", True, 3000)
+display_image(lcd, "./img", "ash-pikachu.pbm", True)
+time.sleep(2)
 
 # SLIDE SHOW DEMO
 display_slide_show(lcd, "./img", ["mario-kart.pbm", "pokemon.pbm", "tetris.pbm", "three-starters.pbm"], True, 2000, 1)

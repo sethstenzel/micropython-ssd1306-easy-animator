@@ -38,7 +38,7 @@ def display_animation(lcd, dir, inverted, disptime, framecount, duration, startf
       startframe+=1
 
       
-def display_image(lcd, dir, file, inverted, disptime):
+def display_image(lcd, dir, file, inverted):
   """Displays a Single Image.
 
   Args:
@@ -46,7 +46,6 @@ def display_image(lcd, dir, file, inverted, disptime):
       dir: str                Directory on the device animation files are in.
       file: str               File to display.
       inverted: bool          Inverts the black/white pbm file.
-      disptime: int           How long each frame should display in ms.
   """
   framebuf_type = framebuf.MONO_HLSB
   with open(str(dir) + '/' + file, 'rb') as f:
@@ -58,8 +57,7 @@ def display_image(lcd, dir, file, inverted, disptime):
   lcd.invert(inverted)
   lcd.blit(fbuf, 0, 0)
   lcd.show()
-  utime.sleep_ms(disptime)
-
+  
 
   
 def display_slide_show(lcd, dir, files, inverted, disptime, loops):
