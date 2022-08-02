@@ -1,56 +1,19 @@
-from machine import I2C, Pin
-import ssd1306
-import framebuf
-import utime
+from display_pbm import *
+import time
 
-def setup_display(hw_pin_scl, hw_pin_sda):
-  i2c = I2C(scl=Pin(hw_pin_scl), sda=Pin(hw_pin_sda), freq=400000)
-  lcd = ssd1306.SSD1306_I2C(128,64,i2c)
-  return i2c, lcd
-  
-   
-def display_animation(i2c, lcd, dir, inverted, disptime, framecount, duration, startframe):
+hw_pin_scl, hw_pin_sda = (4 , 5)
+i2c, lcd = setup_display(hw_pin_scl, hw_pin_sda)
 
-  while startframe <= duration or duration < 0:
-    for frame in range(1,framecount+1):
-      framebuf_type = framebuf.MONO_HLSB
-      with open(str(dir) + '/' + str(frame)+'.pbm', 'rb') as f:
-        header_split = f.read().split(b'128 64\r')
-        if len(header_split) < 2:
-          header_split = header_split[0].split(b'128 64\n')
-        data = bytearray(header_split[1])
-      fbuf = framebuf.FrameBuffer(data, 128, 64, framebuf_type)
-      lcd.invert(inverted)
-      lcd.blit(fbuf, 0, 0)
-      lcd.show()
-      utime.sleep_ms(disptime)
-      startframe+=1
-      
-def display_image(i2c, lcd, directory, file, inverted):
-  framebuf_type = framebuf.MONO_HLSB
-  with open(str(directory) + '/' + file, 'rb') as f:
-    header_split = f.read().split(b'128 64\r')
-    if len(header_split) < 2:
-      header_split = header_split[0].split(b'128 64\n')
-    data = bytearray(header_split[1])
-  fbuf = framebuf.FrameBuffer(data, 128, 64, framebuf_type)
-  lcd.invert(inverted)
-  lcd.blit(fbuf, 0, 0)
-  lcd.show()
-  
-def display_slide_show(i2c, lcd, dir, files, inverted, disptime, loops):
-  counter = 0
-  while loops < 0 or counter <= loops:
-    for file in files:
-      display_image(i2c, lcd, dir, file, inverted)
-      utime.sleep_ms(disptime)
-    if loops != -1:
-      counter +=1
+# SINGLE IMAGE DEMO
+display_image(lcd, "./img", "ash-pikachu.pbm", False)
+time.sleep(2)
 
+# SLIDE SHOW DEMO
+display_slide_show(lcd, "./img", ["mario-kart.pbm", "pokemon.pbm", "tetris.pbm", "three-starters.pbm"], False, 2, 1)
 
-
-
-
-
+# ANIMATION DEMO
+display_animation(lcd, "./ani/mario_dance", False, 1/15, 23, 6, 1)
+display_animation(lcd, "./ani/streetf", False, 1/30, 38, 15, 1)
+display_animation(lcd, "./ani/yoshi_walk", False, 1/30,  5, 10, 1)
 
 
